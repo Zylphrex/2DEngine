@@ -14,7 +14,7 @@ public class Keyboard implements KeyListener{
 	public static final int K_ENTER = KeyEvent.VK_ENTER;
 	
 	// 65536 keys
-	private boolean[] keys = new boolean [65536];
+	private static boolean[] keys = new boolean [65536];
 	
 	private Keyboard() {
 
@@ -35,7 +35,7 @@ public class Keyboard implements KeyListener{
 		keys[e.getKeyCode()] = false;
 	}
 	
-	public boolean isPressed(int key) {
+	public static boolean isPressed(int key) {
 		return keys[key];
 	}
 	

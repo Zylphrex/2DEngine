@@ -13,12 +13,6 @@ import self.edu.engine.gfx.Screen;
 import self.edu.engine.input.Keyboard;
 import self.edu.engine.states.GameStateManager;
 
-// when using this class, the child class must call the
-// init, setDimension, setGfx, show, and start method
-// NOTE!!!: you must call the setDimension method first
-// the other methods may not work as expected if
-// setDimension was not called first
-
 public abstract class Game extends Canvas implements Runnable {
 
 	private static final long serialVersionUID = 1L;
@@ -41,13 +35,16 @@ public abstract class Game extends Canvas implements Runnable {
 	private boolean running;
 	private Thread thread;
 
-	// input
-	private Keyboard keyboard;
-
+	/**
+	 * make sure to override this method, call super.init() in it and add any
+	 * gamestates to the game here
+	 */
 	public void init() {
 		gsm = GameStateManager.getInstance();
-		keyboard = Keyboard.getInstance();
-		addKeyListener(keyboard);
+		addKeyListener(Keyboard.getInstance());
+		setGfx();
+		show();
+		requestFocusInWindow();
 	}
 
 	/**
@@ -112,6 +109,8 @@ public abstract class Game extends Canvas implements Runnable {
 
 	@Override
 	public void run() {
+		init();
+
 		final double nsPerTick = 1e9 / 60;
 
 		long then = System.nanoTime();
@@ -149,11 +148,11 @@ public abstract class Game extends Canvas implements Runnable {
 		}
 
 		Graphics g = bs.getDrawGraphics();
-		
+
 		screen.clear();
 		render();
 		screen.display(pixels);
-		
+
 		g.drawImage(image, 0, 0, width * scale, height * scale, null);
 
 		g.dispose();
@@ -174,10 +173,6 @@ public abstract class Game extends Canvas implements Runnable {
 
 	public GameStateManager getGsm() {
 		return gsm;
-	}
-	
-	public Keyboard getKeyboard() {
-		return keyboard;
 	}
 
 	public Screen getScreen() {

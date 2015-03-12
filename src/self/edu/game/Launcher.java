@@ -3,7 +3,8 @@ package self.edu.game;
 public class Launcher {
 
 	public static void main(String[] args) {
-		Asteroids a = new Asteroids(200, 100, 2);
+		int width = 720;
+		Asteroids a = new Asteroids(width, width / 16 * 9, 1);
 		a.start();
 	}
 
