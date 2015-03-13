@@ -5,7 +5,7 @@ import self.edu.engine.states.GameState;
 import self.edu.game.states.Menu;
 import self.edu.game.states.Play;
 
-public class Asteroids extends Game {
+public class AsteroidsGame extends Game {
 
 	private static final long serialVersionUID = 1L;
 
@@ -13,7 +13,7 @@ public class Asteroids extends Game {
 	private GameState menu = new Menu(this);
 	private GameState play = new Play(this);
 
-	public Asteroids(int width, int height, int scale) {
+	public AsteroidsGame(int width, int height, int scale) {
 		setDimension(width, height, scale);
 	}
 
@@ -25,12 +25,10 @@ public class Asteroids extends Game {
 	}
 
 	public void startGame() {
-		play.reset();
 		getGsm().setCurrentState(play);
 	}
 
 	public void returnToMenu() {
-		menu.reset();
 		getGsm().setCurrentState(menu);
 	}
 

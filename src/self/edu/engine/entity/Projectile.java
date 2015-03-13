@@ -1,21 +1,12 @@
 package self.edu.engine.entity;
 
+import self.edu.engine.interfaces.Renderable;
+import self.edu.engine.interfaces.Tickable;
 
-public abstract class Mob extends Entity {
+public abstract class Projectile extends Entity implements Tickable, Renderable {
 
-	protected double speed, maxSpeed, acceleration;
-
-	public void accelerate() {
-		if (speed <= maxSpeed)
-			speed += acceleration;
-	}
-
-	public void decelerate() {
-		if (speed > 0)
-			speed -= acceleration;
-		else
-			speed = 0;
-	}
+	protected double speed;
+	protected float angle;
 
 	public void move(double xd, double yd) {
 		if (xd != 0 && yd != 0) {

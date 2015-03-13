@@ -83,6 +83,34 @@ public class Screen {
 	}
 
 	/**
+	 * renders the specified sprite at x,y as its top left corner rotated by the
+	 * specified angle measured in radians;
+	 * 
+	 * @param sprite
+	 * @param x
+	 * @param y
+	 * @param angle
+	 */
+	public void render(Sprite sprite, int x, int y, double angle) {
+		double cos = Math.cos(angle);
+		double sin = Math.sin(angle);
+
+		int yy = y + sprite.getHeight() / 2;
+		int xx = x + sprite.getWidth() / 2;
+
+		for (int i = 0; i < sprite.getHeight(); i++) {
+			int yyy = i - sprite.getHeight() / 2;
+			for (int j = 0; j < sprite.getWidth(); j++) {
+				int xxx = j - sprite.getWidth() / 2;
+
+				buffer(sprite.getPixel(j, i), xx
+						+ (int) (xxx * cos + yyy * -sin), yy
+						+ (int) (xxx * sin + yyy * cos));
+			}
+		}
+	}
+
+	/**
 	 * Renders the specified text at x,y as its top left corner as the specified
 	 * color
 	 * 
@@ -119,46 +147,6 @@ public class Screen {
 	}
 
 	/**
-	 * renders the specified sprite at x,y as its top left corner rotated by the
-	 * specified angle in radians;
-	 * 
-	 * @param sprite
-	 * @param x
-	 * @param y
-	 * @param angle
-	 */
-	public void render(Sprite sprite, int x, int y, double angle) {
-		int cx = sprite.getWidth() / 2;
-		int cy = sprite.getHeight() / 2;
-
-		for (int i = 0; i < sprite.getHeight(); i++) {
-			int yy = y + i;
-			if (yy < 0)
-				continue;
-			else if (yy >= height)
-				break;
-
-			int yd = yy - cy;
-
-			for (int j = 0; j < sprite.getWidth(); j++) {
-				int xx = x + j;
-				if (xx < 0)
-					continue;
-				else if (xx >= width)
-					break;
-
-				int xd = xx - cx;
-
-				double d = Math.sqrt(xd * xd + yd * yd);
-
-				double a = Math.atan2(yd, xd);
-
-				buffer(sprite.getPixel(j, i), xx, yy);
-			}
-		}
-	}
-
-	/**
 	 * Buffers the specified col2 to the specified coordinate
 	 * 
 	 * @param col
@@ -171,6 +159,8 @@ public class Screen {
 			// these colors, ignore them
 			return;
 
+		if (x < 0 || x >= width || y < 0 || y >= height)
+			return;
 		pixels[y * width + x] = col2;
 	}
 
@@ -187,6 +177,8 @@ public class Screen {
 			// these colors, ignore them
 			return;
 
+		if (x < 0 || x >= width || y < 0 || y >= height)
+			return;
 		pixels[y * width + x] = col;
 	}
 

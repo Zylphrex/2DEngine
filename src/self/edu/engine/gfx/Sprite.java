@@ -12,6 +12,12 @@ public class Sprite {
 		this.pixels = sheet.getSprite(column * width, row * height, width,
 				height);
 	}
+	
+	public Sprite(int width, int height, int pixels[]) {
+		this.width = width;
+		this.height = height;
+		this.pixels = pixels;
+	}
 
 	public int getWidth() {
 		return width;

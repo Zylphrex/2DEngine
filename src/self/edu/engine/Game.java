@@ -109,7 +109,6 @@ public abstract class Game extends Canvas implements Runnable {
 
 	@Override
 	public void run() {
-		init();
 
 		final double nsPerTick = 1e9 / 60;
 
@@ -163,7 +162,7 @@ public abstract class Game extends Canvas implements Runnable {
 		return width;
 	}
 
-	public int getPixelHeight() {
+	public int getPixelsHeight() {
 		return height;
 	}
 

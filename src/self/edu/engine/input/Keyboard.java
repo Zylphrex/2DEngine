@@ -12,6 +12,7 @@ public class Keyboard implements KeyListener{
 	public static final int K_LEFT = KeyEvent.VK_LEFT;
 	public static final int K_RIGHT = KeyEvent.VK_RIGHT;
 	public static final int K_ENTER = KeyEvent.VK_ENTER;
+	public static final int K_SPACE = KeyEvent.VK_SPACE;
 	
 	// 65536 keys
 	private static boolean[] keys = new boolean [65536];

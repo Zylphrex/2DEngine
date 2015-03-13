@@ -28,6 +28,7 @@ public class GameStateManager {
 		int i = gameStates.indexOf(gameState);
 		if (i == -1)
 			return;
+		gameState.reset();
 		this.currentState = i;
 	}
 

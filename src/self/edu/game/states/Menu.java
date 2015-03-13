@@ -5,7 +5,7 @@ import self.edu.engine.gfx.Screen;
 import self.edu.engine.gfx.Text;
 import self.edu.engine.input.Keyboard;
 import self.edu.engine.states.GameState;
-import self.edu.game.Asteroids;
+import self.edu.game.AsteroidsGame;
 
 public class Menu extends GameState {
 
@@ -35,7 +35,7 @@ public class Menu extends GameState {
 
 	private void enterSelection() {
 		if (options[option].equals("Start"))
-			((Asteroids) getGame()).startGame();
+			((AsteroidsGame) getGame()).startGame();
 		else if (options[option].equals("Quit"))
 			System.exit(0);
 	}
@@ -89,8 +89,4 @@ public class Menu extends GameState {
 		option = 0;
 	}
 
-	@Override
-	public String toString() {
-		return "Menu";
-	}
 }

@@ -1,9 +1,14 @@
 package self.edu.engine.entity;
 
-public abstract class Entity {
+import self.edu.engine.interfaces.Renderable;
+import self.edu.engine.interfaces.Tickable;
+
+public abstract class Entity implements Tickable, Renderable {
 
 	// location
 	protected double x, y;
+
+	protected boolean shouldRemove;
 
 	public double getX() {
 		return x;
@@ -11,6 +16,10 @@ public abstract class Entity {
 
 	public double getY() {
 		return y;
+	}
+
+	public boolean shouldRemove() {
+		return shouldRemove;
 	}
 
 }
