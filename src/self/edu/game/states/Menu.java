@@ -36,6 +36,8 @@ public class Menu extends GameState {
 	private void enterSelection() {
 		if (options[option].equals("Start"))
 			((AsteroidsGame) getGame()).startGame();
+		else if (options[option].equals("Help"))
+			((AsteroidsGame) getGame()).seeHelp();
 		else if (options[option].equals("Quit"))
 			System.exit(0);
 	}

@@ -96,9 +96,11 @@ public class Play extends GameState {
 	public void addEntity(Entity e) {
 		entities.add(e);
 	}
-
+	
 	@Override
 	public void reset() {
+		ticks = score = 0;
+		entities = new ArrayList<Entity>();
 		ship = new Ship(this, getGame().getPixelsWidth() / 2
 				- Ship.STATIONARY.getWidth() / 2, getGame().getPixelsHeight()
 				/ 2 - Ship.STATIONARY.getHeight() / 2);
