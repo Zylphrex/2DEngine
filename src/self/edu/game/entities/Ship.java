@@ -16,51 +16,70 @@ public class Ship extends Mob {
 
 	private static final float ROTATION = (float) (15 / 360.0 * 2.0 * Math.PI);
 
-	private Play p;
-
 	private int ticks = 0;
-	private float angle = -(float) (Math.PI / 2.0);
+	private float mAngle = (float) (Math.PI / 2.0);
+	private float fAngle = mAngle;
 
 	private boolean isMoving;
-
-	private int xh, yh;
+	private boolean spacePressed;
 
 	public Ship(Play p, int x, int y) {
 		this.p = p;
 		this.x = x;
 		this.y = y;
-		this.setH();
 		this.speed = 0;
-		this.maxSpeed = 15;
+		this.maxSpeed = 12;
 		this.acceleration = .5;
+		this.deceleration = .2;
+	}
+
+	@Override
+	public void move(double xd, double yd) {
+		if (xd != 0 && yd != 0) {
+			move(xd, 0);
+			move(0, yd);
+			return;
+		}
+
+		if (!hasCollided(xd, yd)) {
+			x += xd;
+			y += yd;
+		} else {
+			p.gameOver();
+		}
 	}
 
 	@Override
 	public void tick() {
+		spacePressed = !spacePressed ? Keyboard.isPressed(Keyboard.K_SPACE)
+				: true;
+
 		if (++ticks % 4 == 0) {
+			if (Keyboard.isPressed(Keyboard.K_LEFT)) {
+				fAngle += ROTATION;
+				isMoving = true;
+			} else if (Keyboard.isPressed(Keyboard.K_RIGHT)) {
+				fAngle -= ROTATION;
+				isMoving = true;
+			}
 
 			if (Keyboard.isPressed(Keyboard.K_UP)) {
 				accelerate();
 				isMoving = true;
+				mAngle = fAngle;
 			} else {
 				decelerate();
 				isMoving = false;
 			}
 
-			if (Keyboard.isPressed(Keyboard.K_LEFT)) {
-				angle -= ROTATION;
-				isMoving = true;
-			} else if (Keyboard.isPressed(Keyboard.K_RIGHT)) {
-				angle += ROTATION;
-				isMoving = true;
+			if (ticks % 32 == 0 && spacePressed) {
+				p.addEntity(new Bullet(p, (int) x + STATIONARY.getWidth() / 2,
+						(int) y + STATIONARY.getHeight() / 2, fAngle));
+				spacePressed = false;
 			}
 
-			if (ticks % 8 == 0 && Keyboard.isPressed(Keyboard.K_SPACE))
-				p.addEntity(new Bullet(p, xh, yh, angle));
-
-			move(speed, angle);
+			move(speed, mAngle);
 			reposition();
-			setH();
 		}
 	}
 
@@ -76,27 +95,33 @@ public class Ship extends Mob {
 		if (y < -MOVING.getHeight())
 			y = height;
 		else if (y >= height)
-			y = -MOVING.getHeight();;
-	}
-
-	private void setH() {
-		this.xh = 28;
-		this.yh = 16;
-
-		double cos = Math.cos(angle);
-		double sin = Math.sin(angle);
-
-		int xx = (int) x + STATIONARY.getWidth() / 2;
-		int yy = (int) y + STATIONARY.getHeight() / 2;
-		int xxx = xh - STATIONARY.getWidth() / 2;
-		int yyy = yh - STATIONARY.getHeight() / 2;
-
-		xh = (int) (xx + (xxx * cos + yyy * -sin));
-		yh = (int) (yy + (yyy * sin + yyy * cos));
+			y = -MOVING.getHeight();
+		;
 	}
 
 	@Override
 	public void render(Screen screen) {
-		screen.render(isMoving ? MOVING : STATIONARY, (int) x, (int) y, angle);
+		screen.render(isMoving ? MOVING : STATIONARY, (int) x, (int) y, fAngle);
+	}
+
+	@Override
+	public boolean hasCollided(double xd, double yd) {
+		int xMin = (int) (x + 4);
+		int yMin = (int) (y + 4);
+		int xMax = xMin + 24;
+		int yMax = yMin + 24;
+
+		for (int i = 0; i < 24; i++) {
+			if (p.crash(xMin + i, yMin))
+				return true;
+			if (p.crash(xMin + i, yMax))
+				return true;
+			if (p.crash(xMin, yMin + i))
+				return true;
+			if (p.crash(xMax, yMin + i))
+				return true;
+		}
+
+		return false;
 	}
 }

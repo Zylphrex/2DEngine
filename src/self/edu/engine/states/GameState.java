@@ -17,5 +17,5 @@ public abstract class GameState implements Tickable, Renderable{
 	}
 	
 	public abstract void reset();
-	
+
 }

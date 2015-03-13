@@ -93,21 +93,24 @@ public class Screen {
 	 */
 	public void render(Sprite sprite, int x, int y, double angle) {
 		double cos = Math.cos(angle);
-		double sin = Math.sin(angle);
+		double sin = -Math.sin(angle);
 
-		int yy = y + sprite.getHeight() / 2;
-		int xx = x + sprite.getWidth() / 2;
+		y += sprite.getHeight() / 2;
+		x += sprite.getWidth() / 2;
 
 		for (int i = 0; i < sprite.getHeight(); i++) {
-			int yyy = i - sprite.getHeight() / 2;
+			int yy = i - sprite.getHeight() / 2;
 			for (int j = 0; j < sprite.getWidth(); j++) {
-				int xxx = j - sprite.getWidth() / 2;
+				int xx = j - sprite.getWidth() / 2;
 
-				buffer(sprite.getPixel(j, i), xx
-						+ (int) (xxx * cos + yyy * -sin), yy
-						+ (int) (xxx * sin + yyy * cos));
+				buffer(sprite.getPixel(j, i), (int) (x + xx * cos + yy * -sin),
+						(int) (y + xx * sin + yy * cos));
+				// buffer(sprite.getPixel(j, i), xx
+				// - (int) (xxx * cos + yyy * -sin), yy
+				// + (int) (xxx * sin + yyy * cos));
 			}
 		}
+
 	}
 
 	/**

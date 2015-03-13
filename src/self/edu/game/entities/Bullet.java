@@ -11,8 +11,6 @@ public class Bullet extends Projectile {
 			0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff,
 			0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff });
 
-	private Play p;
-
 	public Bullet(Play p, int x, int y, float angle) {
 		this.p = p;
 		this.x = x;
@@ -24,8 +22,12 @@ public class Bullet extends Projectile {
 	@Override
 	public void tick() {
 		move(speed, angle);
-		shouldRemove = x < 0 || x >= p.getGame().getPixelsWidth() || y < 0
-				|| y >= p.getGame().getPixelsHeight();
+		if (!shouldRemove)
+			shouldRemove = x < -BULLET.getWidth()
+					|| x >= p.getGame().getPixelsWidth()
+					|| y < -BULLET.getHeight()
+					|| y >= p.getGame().getPixelsHeight();
+
 	}
 
 	@Override
@@ -33,4 +35,21 @@ public class Bullet extends Projectile {
 		screen.render(BULLET, (int) x, (int) y);
 	}
 
+	@Override
+	public boolean hasCollided(double xd, double yd) {
+		int xMin = (int) x;
+		int yMin = (int) y;
+		int xMax = xMin + 2;
+		int yMax = yMin + 2;
+
+		for (int i = 0; i < 3; i++) {
+			if (p.hit(xMin + i, yMin) || p.hit(xMin + i, yMax)
+					|| p.hit(xMin, yMin + i) || p.hit(xMax, yMin + i)) {
+				shouldRemove = true;
+				return true;
+			}
+		}
+
+		return false;
+	}
 }

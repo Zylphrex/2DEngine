@@ -3,7 +3,7 @@ package self.edu.engine.entity;
 
 public abstract class Mob extends Entity {
 
-	protected double speed, maxSpeed, acceleration;
+	protected double speed, maxSpeed, acceleration, deceleration;
 
 	public void accelerate() {
 		if (speed <= maxSpeed)
@@ -12,7 +12,7 @@ public abstract class Mob extends Entity {
 
 	public void decelerate() {
 		if (speed > 0)
-			speed -= acceleration;
+			speed -= deceleration;
 		else
 			speed = 0;
 	}
@@ -40,13 +40,10 @@ public abstract class Mob extends Entity {
 	 */
 	public void move(double d, float a) {
 		double xd = d * Math.cos(a);
-		double yd = d * Math.sin(a);
+		double yd = -d * Math.sin(a);
 
 		move(xd, yd);
 	}
 
-	public boolean hasCollided(double xd, double yd) {
-		return false;
-	}
-
+	public abstract boolean hasCollided(double xd, double yd);
 }

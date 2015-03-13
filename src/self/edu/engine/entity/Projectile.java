@@ -10,8 +10,8 @@ public abstract class Projectile extends Entity implements Tickable, Renderable 
 
 	public void move(double xd, double yd) {
 		if (xd != 0 && yd != 0) {
-			move(xd, 0);
-			move(0, yd);
+			move(xd, (double) 0);
+			move((double) 0, yd);
 			return;
 		}
 
@@ -27,17 +27,15 @@ public abstract class Projectile extends Entity implements Tickable, Renderable 
 	 * @param d
 	 *            - displacement
 	 * @param angle
-	 *            - angle in degrees positive x axis as 0;
+	 *            - angle in radians positive x axis as 0;
 	 */
 	public void move(double d, float a) {
 		double xd = d * Math.cos(a);
-		double yd = d * Math.sin(a);
+		double yd = -d * Math.sin(a);
 
 		move(xd, yd);
 	}
 
-	public boolean hasCollided(double xd, double yd) {
-		return false;
-	}
+	public abstract boolean hasCollided(double xd, double yd);
 
 }
