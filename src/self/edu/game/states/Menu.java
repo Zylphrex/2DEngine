@@ -77,7 +77,7 @@ public class Menu extends GameState {
 			int x = screen.getWidth() / 2 - Text.getWidth(texts[i]) * textScale
 					/ 2; // centers text
 			Text.render(screen, texts[i], x, y, textScale, 0xffff);
-			y += Text.HEIGHT * textScale;
+			y += Text.HEIGHT * textScale + 10;
 		}
 
 		y = screen.getHeight() - 5 - Text.HEIGHT * textScale;
